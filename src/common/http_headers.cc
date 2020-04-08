@@ -42,8 +42,11 @@ std::string toLowercase(std::string str) {
 
 bool LowercaseEqualStatic(const std::string &dynamic,
                           const std::string &statik) {
+    if(dynamic.size() != statik.size()){
+        return false;
+    }
   return std::equal(
-      dynamic.begin(), dynamic.end(), statik.begin(), statik.end(),
+      dynamic.begin(), dynamic.end(), statik.begin(),
       [](const char &a, const char &b) { return std::tolower(a) == b; });
 }
 

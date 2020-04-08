@@ -33,7 +33,7 @@
     }                                                                          \
   } while (0)
 
-#define TRY_RET(...)                                                           \
+/*#define TRY_RET(...)                                                           \
   [&]() {                                                                      \
     auto ret = __VA_ARGS__;                                                    \
     if (ret < 0) {                                                             \
@@ -45,7 +45,17 @@
     }                                                                          \
     return ret;                                                                \
   }();                                                                         \
-  (void)0
+  (void)0*/
+template <typename T>
+T TRY_RET(const  T ret){
+    if (ret < 0) {
+      std::ostringstream oss;
+      oss << strerror(errno);
+      oss << " (" << __FILE__ << ":" << __LINE__ << ")";
+      throw std::runtime_error(oss.str());
+    }
+    return  ret;
+}
 
 struct PrintException {
   void operator()(std::exception_ptr exc) const {

@@ -14,8 +14,6 @@
 #include <unordered_map>
 #include <vector>
 
-using namespace std::string_literals;
-
 namespace Pistache {
 namespace Aio {
 
@@ -311,11 +309,11 @@ public:
       : Reactor::Impl(reactor) {
 
     if (threads > SyncImpl::MaxHandlers())
-      throw std::runtime_error("Too many worker threads requested (max "s +
-                               std::to_string(SyncImpl::MaxHandlers()) + ")."s);
+      throw std::runtime_error("Too many worker threads requested (max " +
+                               std::to_string(SyncImpl::MaxHandlers()) + ").");
 
     for (size_t i = 0; i < threads; ++i)
-      workers_.emplace_back(std::make_unique<Worker>(reactor, threadsName));
+      workers_.emplace_back(std::unique_ptr<Worker>(new Worker(reactor, threadsName)));
   }
 
   Reactor::Key addHandler(const std::shared_ptr<Handler> &handler,

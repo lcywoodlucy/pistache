@@ -32,7 +32,10 @@ bool LowercaseEqualStatic(const std::string &dynamic,
 
 struct LowercaseEqual {
   bool operator()(const std::string &left, const std::string &right) const {
-    return std::equal(left.begin(), left.end(), right.begin(), right.end(),
+      if(left.size() != right.size()){
+          return false;
+      }
+    return std::equal(left.begin(), left.end(), right.begin(),
                       [](const char &a, const char &b) {
                         return std::tolower(a) == std::tolower(b);
                       });
